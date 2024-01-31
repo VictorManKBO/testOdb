@@ -1,0 +1,10 @@
+Name: odb
+Version: 2.5.0-b.25
+Description: ODB compiler
+URL: https://www.codesynthesis.com/products/odb/
+Cflags: -I/home/victer/build2-build/odb-build/install/compiller/include
+Libs: -L/home/victer/build2-build/odb-build/install/compiller/lib -lodb
+
+build2.metadata = 1
+
+cc.type = cxx

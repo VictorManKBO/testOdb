@@ -1,0 +1,60 @@
+<changelog xmlns="http://www.codesynthesis.com/xmlns/odb/changelog" database="mysql" version="1">
+  <model version="1">
+    <table name="Base" options="ENGINE=InnoDB" kind="polymorphic root object">
+      <column name="id" type="VARCHAR(36)" null="false"/>
+      <column name="typeid" type="VARCHAR(128)" null="false"/>
+      <primary-key>
+        <column name="id"/>
+      </primary-key>
+    </table>
+    <table name="Animal" options="ENGINE=InnoDB" kind="polymorphic derived object">
+      <column name="id" type="VARCHAR(36)" null="false"/>
+      <column name="nickname" type="TEXT" null="false"/>
+      <primary-key>
+        <column name="id"/>
+      </primary-key>
+      <foreign-key name="Animal_id_fk" on-delete="CASCADE">
+        <column name="id"/>
+        <references table="Base">
+          <column name="id"/>
+        </references>
+      </foreign-key>
+    </table>
+    <table name="Man" options="ENGINE=InnoDB" kind="polymorphic derived object">
+      <column name="id" type="VARCHAR(36)" null="false"/>
+      <column name="name" type="TEXT" null="false"/>
+      <primary-key>
+        <column name="id"/>
+      </primary-key>
+      <foreign-key name="Man_id_fk" on-delete="CASCADE">
+        <column name="id"/>
+        <references table="Base">
+          <column name="id"/>
+        </references>
+      </foreign-key>
+    </table>
+    <table name="Man_pets" options="ENGINE=InnoDB" kind="container">
+      <column name="object_id" type="VARCHAR(36)" null="false"/>
+      <column name="index" type="BIGINT UNSIGNED" null="false"/>
+      <column name="value" type="VARCHAR(36)" null="true"/>
+      <foreign-key name="Man_pets_object_id_fk" on-delete="CASCADE">
+        <column name="object_id"/>
+        <references table="Man">
+          <column name="id"/>
+        </references>
+      </foreign-key>
+      <index name="object_id_i">
+        <column name="object_id"/>
+      </index>
+      <index name="index_i">
+        <column name="index"/>
+      </index>
+      <foreign-key name="Man_pets_value_fk" deferrable="DEFERRED">
+        <column name="value"/>
+        <references table="Animal">
+          <column name="id"/>
+        </references>
+      </foreign-key>
+    </table>
+  </model>
+</changelog>
